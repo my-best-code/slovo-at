@@ -1,24 +1,32 @@
 ---
 // Всё, что нужно поисковикам, ИИ-ботам и превью ссылок: title, description,
-// canonical, Open Graph, JSON-LD. Подключается в BaseLayout.
+// canonical, hreflang, Open Graph, JSON-LD. Подключается в BaseLayout.
 import { PRODUCTION_ORIGIN, site } from '../data/site';
-import { languages, type Lang } from '../i18n';
+import { defaultLang, getDict, languages, langs, localePath, type Lang } from '../i18n';
+import { imageUrl, type ImageKey } from '../lib/images';
 import { absolute } from '../lib/urls';
 
 interface Props {
   title: string;
   description: string;
   lang: Lang;
+  /** Путь страницы без языка — для ссылок на другие языковые версии. */
+  path: string;
+  /** Картинка для превью ссылки в мессенджерах и соцсетях. */
+  image: ImageKey;
   noindex?: boolean;
   jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description, lang, noindex = false, jsonLd = [] } = Astro.props;
+const { title, description, lang, path, image, noindex = false, jsonLd = [] } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 // Тестовый деплой на *.github.io не должен попасть в поиск.
 const isProduction = Astro.site?.origin === PRODUCTION_ORIGIN;
-const ogImage: string | null = null;
+// Путь картинки уже содержит базовый путь сайта, поэтому только добавляем домен.
+const ogImage = new URL(await imageUrl(image, 1200, 'jpg'), Astro.site).toString();
+const alternates = langs.map((code) => ({ hreflang: languages[code].htmlLang, href: absolute(localePath(code, path), Astro.site) }));
+const xDefault = absolute(localePath(defaultLang, path), Astro.site);
 
 const organization = {
   '@context': 'https://schema.org',
@@ -27,6 +35,7 @@ const organization = {
   name: site.name,
   legalName: site.legalName,
   url: absolute('/', Astro.site),
+  description: getDict(lang).home.meta.description,
   email: site.email,
   telephone: site.phone,
   address: {
@@ -47,6 +56,8 @@ const toJson = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 {(noindex || !isProduction) && <meta name="robots" content="noindex" />}
+{!noindex && alternates.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
+{!noindex && <link rel="alternate" hreflang="x-default" href={xDefault} />}
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={site.name} />
@@ -54,8 +65,8 @@ const toJson = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
-{ogImage && <meta property="og:image" content={ogImage} />}
-<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
 
 <link rel="sitemap" href={absolute('/sitemap-index.xml', Astro.site)} />
 

@@ -21,7 +21,7 @@ const cover = await picture(groups.cover.image, groups.cover.alt, 1600, '100vw')
 const courses = await courseBlocksProps(lang, groups.courses);
 ---
 
-<BaseLayout lang={lang} path="/groups/" title={`${groups.meta.title} – ${site.name}`} description={groups.meta.description}>
+<BaseLayout lang={lang} path="/groups/" title={`${groups.meta.title} – ${site.name}`} description={groups.meta.description} image={groups.cover.image}>
   <PhotoCover picture={cover} title={groups.cover.title} eager />
   <section class="section">
     <div class="container">

@@ -19,7 +19,7 @@ const cover = await picture(individual.cover.image, individual.cover.alt, 1600, 
 const concept = await courseBlocksProps(lang, [individual.concept]);
 ---
 
-<BaseLayout lang={lang} path="/individual/" title={`${individual.meta.title} – ${site.name}`} description={individual.meta.description}>
+<BaseLayout lang={lang} path="/individual/" title={`${individual.meta.title} – ${site.name}`} description={individual.meta.description} image={individual.cover.image}>
   <PhotoCover picture={cover} title={individual.cover.title} eager />
   <section class="section">
     <div class="container">

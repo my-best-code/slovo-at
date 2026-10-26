@@ -14,7 +14,7 @@ const { contacts } = getDict(lang);
 const cover = await picture(contacts.cover.image, contacts.cover.alt, 1600, '100vw');
 ---
 
-<BaseLayout lang={lang} path="/contacts/" title={`${contacts.meta.title} – ${site.name}`} description={contacts.meta.description}>
+<BaseLayout lang={lang} path="/contacts/" title={`${contacts.meta.title} – ${site.name}`} description={contacts.meta.description} image={contacts.cover.image}>
   <PhotoCover picture={cover} title={contacts.cover.title} eager />
   <section class="section">
     <div class="container contacts">

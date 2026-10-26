@@ -17,7 +17,7 @@ const { ueber } = getDict(lang);
 const cover = await picture(ueber.cover.image, ueber.cover.alt, 1600, '100vw');
 ---
 
-<BaseLayout lang={lang} path="/ueber/" title={`${ueber.meta.title} – ${site.name}`} description={ueber.meta.description}>
+<BaseLayout lang={lang} path="/ueber/" title={`${ueber.meta.title} – ${site.name}`} description={ueber.meta.description} image={ueber.cover.image}>
   <PhotoCover picture={cover} title={ueber.cover.title} eager />
   <section class="section">
     <div class="container text-block">

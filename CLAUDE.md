@@ -1,7 +1,7 @@
 # slovo.at
 
-Сайт-визитка slovo.at: Astro 7 + React-компоненты (TSX), статическая сборка, хостинг на GitHub Pages.
-Сайт принадлежит владельцу репозитория. Комментарии в коде пишем по-русски, тексты для посетителей — по-немецки (de-AT).
+Сайт онлайн-школы немецкого SLOVO Sprachschule (slovo.at): Astro 7 + React-компоненты (TSX), статическая сборка, хостинг на GitHub Pages. Перенесён с Tilda: тексты и фото — оттуда.
+Сайт принадлежит владельцу репозитория. Комментарии в коде пишем по-русски. Основной язык сайта — русский (в корне, адреса как на Tilda), немецкая версия — в `/de/`. Impressum и Datenschutz — на немецком.
 
 @AGENTS.md
 
@@ -15,35 +15,39 @@
 
 | Что | Где |
 | --- | --- |
-| Название, описание, контакты, адрес, соцсети, OG-картинка | `src/data/site.ts` |
-| Пункты меню | `nav` в `src/data/site.ts` |
-| Список страниц для llms.txt | `pages` в `src/data/site.ts` |
-| Тексты главной | `src/data/home.ts` |
-| Impressum, Datenschutz | `src/pages/impressum.astro`, `src/pages/datenschutz.astro` |
+| Все тексты страниц, меню, подвала, формы | словари `src/i18n/ru/*.ts` и `src/i18n/de/*.ts` (по файлу на страницу, `common.ts` — общее) |
+| Языки, адреса на других языках | `src/i18n/config.ts` (`localePath`) |
+| Название школы, почта, телефон, адрес, соцсети, ключ формы | `src/data/site.ts` |
+| Страницы (что из чего собрано) | `src/views/*Page.astro`; файлы в `src/pages/` и `src/pages/de/` только выбирают язык |
 | Компоненты | `src/components/*.tsx` |
-| `<head>`: title, canonical, Open Graph, JSON-LD | `src/components/Seo.astro` |
+| Фото | `src/assets/images/`, список и подготовка — `src/lib/images.ts`; подписи (alt) — в словарях |
+| Повторяющиеся блоки (форма записи, «Свяжитесь с нами», карточки) | данные — `src/lib/blocks.ts` |
+| Ссылки и выделения внутри текстов | `src/lib/rich.ts`: `[текст](/groups/)`, `**жирный**`, `~~старая цена~~`, перенос строки |
+| `<head>`: title, canonical, hreflang, Open Graph, JSON-LD | `src/components/Seo.astro` |
 | Шаблон страницы | `src/layouts/BaseLayout.astro` |
-| Цвета, шрифты, отступы | переменные в `:root` в `src/styles/global.css` |
+| Цвета, шрифт Manrope, отступы | `src/styles/global.css` (переменные в `:root`), шрифты — `src/assets/fonts/` |
 | Редиректы со старых адресов Tilda | `redirects` в `astro.config.mjs` |
-| robots.txt, llms.txt | `src/pages/robots.txt.ts`, `src/pages/llms.txt.ts` (собираются из `site.ts`) |
-| Картинки | `src/assets/` через `<Image />` из `astro:assets`; favicon и `og.png` — в `public/` |
+| robots.txt, llms.txt | `src/pages/robots.txt.ts`, `src/pages/llms.txt.ts` (собираются из словарей) |
 
 ## Правила
 
+- Текст меняем в словаре **обоих** языков: `src/i18n/ru/…` и `src/i18n/de/…`. TypeScript не даст собрать сайт, если в немецком словаре не хватает поля. Немецкий перевод машинный — новые немецкие тексты помечаем владельцу на вычитку.
+- Тексты в компонентах и `.astro` не пишем — только в словарях.
 - Компоненты пишем на React (TSX) в `src/components/`. По умолчанию без `client:*`: тогда компонент превращается в HTML без JavaScript. `client:*` ставим, только если без него не работает (меню, форма), и выбираем самый ленивый вариант: `client:visible` или `client:media`, а не `client:load`.
 - Внутренние ссылки и пути к файлам из `public/` строим только через `href()` из `src/lib/urls.ts`: до подключения домена сайт живёт в подпапке `<аккаунт>.github.io/<репозиторий>/`. Адреса страниц пишем с завершающим слэшем: `/impressum/`.
 - Цвета и отступы берём только из переменных в `global.css`, без захардкоженных значений в компонентах.
 - Внешние скрипты, шрифты и встраивания (Google Fonts, Google Analytics, YouTube, Google Maps и т. п.) без согласия владельца не добавляем. По DSGVO им нужен cookie-баннер и раздел в Datenschutz. Шрифты подключаем локально через `@fontsource/*`.
 - Репозиторий публичный, поэтому секретов в нём нет и не будет. Публичный ключ формы (Web3Forms access key) — не секрет, его можно держать в коде.
-- Если на сайте появляется что-то, что обрабатывает данные посетителей (форма, аналитика, встраивание), обновляем `src/pages/datenschutz.astro`.
+- Если на сайте появляется что-то, что обрабатывает данные посетителей (форма, аналитика, встраивание), обновляем `src/views/DatenschutzPage.astro`.
 - `.github/workflows/` меняем только по явной просьбе.
 
 ## SEO-чеклист для новой страницы
 
-- Файл в `src/pages/` на `BaseLayout` с уникальными `title` (до ~60 символов) и `description` (до ~160).
+- View в `src/views/`, два файла-обёртки: `src/pages/<имя>.astro` и `src/pages/de/<имя>.astro`.
+- Тексты — новый файл в `src/i18n/ru/` и `src/i18n/de/` с `meta.title` и `meta.description` (до ~160 символов), подключён в их `index.ts`.
 - Ровно один `<h1>`, дальше `h2`/`h3` по порядку.
-- У каждой картинки осмысленный `alt` на немецком.
-- Страница добавлена в `pages` в `src/data/site.ts` (для llms.txt) и, если нужно, в `nav`.
+- У каждой картинки осмысленный `alt` на обоих языках, картинка — через `picture()` из `src/lib/images.ts`.
+- Страница добавлена в `pageKeys` в `src/pages/llms.txt.ts` и, если нужно, в `nav` словарей.
 - Если страница заменяет старую страницу с Tilda — добавлен редирект в `astro.config.mjs`.
 - Sitemap собирается сам, вручную его не трогаем.
 - После `npm run build` в `dist/<страница>/index.html` есть canonical, `og:*` и JSON-LD.

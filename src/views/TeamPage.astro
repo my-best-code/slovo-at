@@ -23,7 +23,7 @@ const members = await Promise.all(
 );
 ---
 
-<BaseLayout lang={lang} path="/team/" title={`${team.meta.title} – ${site.name}`} description={team.meta.description}>
+<BaseLayout lang={lang} path="/team/" title={`${team.meta.title} – ${site.name}`} description={team.meta.description} image={team.cover.image}>
   <PhotoCover picture={cover} title={team.cover.title} eager />
   <section class="section">
     <div class="container members">

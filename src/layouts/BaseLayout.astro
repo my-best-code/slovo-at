@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { site } from '../data/site';
 import { defaultLang, getDict, languages, langs, localePath, type Lang } from '../i18n';
+import type { ImageKey } from '../lib/images';
 import { pageHref } from '../lib/rich';
 import { href } from '../lib/urls';
 import '../styles/global.css';
@@ -14,11 +15,13 @@ interface Props {
   /** Путь страницы без языка, например '/groups/'. Нужен для меню, переключателя языков и hreflang. */
   path: string;
   lang?: Lang;
+  /** Картинка для превью ссылки. По умолчанию — горное озеро, как у главной на Tilda. */
+  image?: ImageKey;
   noindex?: boolean;
   jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description, path, lang = defaultLang, noindex, jsonLd } = Astro.props;
+const { title, description, path, lang = defaultLang, image = 'lakeMountains', noindex, jsonLd } = Astro.props;
 const { common } = getDict(lang);
 
 const links = common.nav.map((item) => ({
@@ -43,7 +46,7 @@ const langLinks = langs.map((code) => ({
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href={href('/favicon.svg')} />
     <meta name="generator" content={Astro.generator} />
-    <Seo title={title} description={description} lang={lang} noindex={noindex} jsonLd={jsonLd} />
+    <Seo title={title} description={description} lang={lang} path={path} image={image} noindex={noindex} jsonLd={jsonLd} />
   </head>
   <body>
     <a class="skip-link" href="#main">{common.skipLink}</a>

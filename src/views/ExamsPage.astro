@@ -17,7 +17,7 @@ const { exams } = getDict(lang);
 const cover = await picture(exams.cover.image, exams.cover.alt, 1600, '100vw');
 ---
 
-<BaseLayout lang={lang} path="/exams/" title={`${exams.meta.title} – ${site.name}`} description={exams.meta.description}>
+<BaseLayout lang={lang} path="/exams/" title={`${exams.meta.title} – ${site.name}`} description={exams.meta.description} image={exams.cover.image}>
   <PhotoCover picture={cover} title={exams.cover.title} eager />
   <section class="section">
     <div class="container">

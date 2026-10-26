@@ -2,7 +2,7 @@
 // Заглушка. Обязательные данные зависят от формы деятельности (ИП, GmbH, Verein…).
 // Сверить с памяткой WKO по Impressum (wko.at) или у юриста / Steuerberater друга.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { site } from '../data/site';
+import { phoneHref, site } from '../data/site';
 import type { Lang } from '../i18n';
 
 interface Props {
@@ -32,33 +32,31 @@ const { lang } = Astro.props;
     </address>
 
     <dl>
+      <dt>Inhaber</dt>
+      <dd>[PLATZHALTER: Vor- und Nachname der Inhaberin / des Inhabers]</dd>
       <dt>E-Mail</dt>
       <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
-      {site.phone && (
-        <>
-          <dt>Telefon</dt>
-          <dd>{site.phone}</dd>
-        </>
-      )}
+      <dt>Telefon</dt>
+      <dd><a href={phoneHref}>{site.phone}</a></dd>
       <dt>Unternehmensgegenstand</dt>
-      <dd>[PLATZHALTER: z. B. Übersetzungsdienstleistungen]</dd>
+      <dd>Sprachschule: Deutschunterricht online und Vorbereitung auf Deutschprüfungen</dd>
       <dt>Rechtsform</dt>
-      <dd>[PLATZHALTER: z. B. Einzelunternehmen, GmbH, Verein]</dd>
-      <dt>UID-Nummer</dt>
-      <dd>[PLATZHALTER: ATU… – oder Zeile entfernen]</dd>
+      <dd>Eingetragenes Einzelunternehmen (e.U.)</dd>
       <dt>Firmenbuchnummer</dt>
-      <dd>[PLATZHALTER: FN … – oder Zeile entfernen]</dd>
+      <dd>[PLATZHALTER: FN …]</dd>
       <dt>Firmenbuchgericht</dt>
-      <dd>[PLATZHALTER: z. B. Handelsgericht Wien – oder Zeile entfernen]</dd>
+      <dd>[PLATZHALTER: vermutlich Landesgericht Salzburg – prüfen]</dd>
+      <dt>UID-Nummer</dt>
+      <dd>[PLATZHALTER: ATU… – oder Zeile entfernen, falls keine UID]</dd>
       <dt>Mitglied der</dt>
-      <dd>[PLATZHALTER: z. B. Wirtschaftskammer Wien – oder Zeile entfernen]</dd>
+      <dd>[PLATZHALTER: vermutlich Wirtschaftskammer Salzburg – prüfen]</dd>
       <dt>Gewerbebehörde</dt>
-      <dd>[PLATZHALTER: z. B. Magistratisches Bezirksamt … – oder Zeile entfernen]</dd>
+      <dd>[PLATZHALTER: zuständige Bezirkshauptmannschaft / Magistrat – oder Zeile entfernen]</dd>
       <dt>Berufsrecht</dt>
       <dd>[PLATZHALTER: Gewerbeordnung, abrufbar unter www.ris.bka.gv.at – oder Zeile entfernen]</dd>
     </dl>
 
     <h2>Grundlegende Richtung (Blattlinie)</h2>
-    <p>[PLATZHALTER: z. B. Information über die Leistungen von {site.name}.]</p>
+    <p>Information über die Deutschkurse und Leistungen der {site.name}.</p>
   </article>
 </BaseLayout>
