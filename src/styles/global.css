@@ -381,13 +381,17 @@ img {
   }
 
   .site-nav .site-nav__cta {
+    display: flex;
     margin-top: 0.75rem;
     width: 100%;
   }
 
   .site-nav .lang-switch {
     display: inline-flex;
+    flex-direction: row;
+    gap: 0;
     margin-top: 1rem;
+    padding: 3px;
     border-color: rgb(255 255 255 / 0.3);
   }
 
