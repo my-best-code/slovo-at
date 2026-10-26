@@ -402,36 +402,231 @@ img {
   }
 }
 
-/* ---------- Заглушки каркаса (уйдут при переносе страниц) ---------- */
+/* ---------- Главная: приветствие ---------- */
 
-.hero {
-  padding-block: clamp(4rem, 12vw, 8rem);
+.home-hero {
+  padding-block: clamp(4rem, 11vw, 7.5rem) clamp(5rem, 12vw, 8rem);
+  text-align: center;
+  background:
+    radial-gradient(60rem 30rem at 85% -10%, var(--color-accent-tint), transparent 70%),
+    radial-gradient(50rem 30rem at 0% 0%, var(--color-blue-tint), transparent 70%),
+    var(--color-bg);
 }
 
-.hero__text {
-  font-size: 1.25rem;
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  background: var(--color-accent-tint);
+  color: var(--color-accent-strong);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-hero h1 {
+  font-size: clamp(3rem, 10vw, 6rem);
+  margin-bottom: 1.5rem;
+}
+
+.home-hero__text {
+  max-width: 42rem;
+  margin-inline: auto;
+  font-size: 1.1875rem;
   color: var(--color-text-muted);
-  margin-bottom: 2rem;
 }
 
-.section--muted {
-  background: var(--color-cream);
+/* ---------- Объявление о курсах ---------- */
+
+.announcement-section {
+  margin-top: clamp(-4rem, -6vw, -2.5rem);
+  padding-bottom: var(--section-space);
+  background: linear-gradient(transparent 4rem, var(--color-cream) 4rem);
 }
 
-.card-grid {
+.announcement {
+  max-width: 52rem;
+  margin-inline: auto;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.announcement__title {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+}
+
+.announcement p {
+  color: var(--color-text-muted);
+  margin-bottom: 1.75rem;
+}
+
+/* ---------- «Почему мы?» ---------- */
+
+.feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.card {
-  padding: 1.5rem;
-  background: var(--color-bg);
+.feature {
+  padding: 1.75rem;
+  background: var(--color-cream);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
+}
+
+.feature__number {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 1.25rem;
+  border-radius: 12px;
+  background: var(--color-accent-tint);
+  color: var(--color-accent-strong);
+  font-weight: 800;
+}
+
+.feature p {
+  color: var(--color-text-muted);
+  margin-bottom: 0.6em;
+}
+
+.feature p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Отзывы ---------- */
+
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.75rem 1.75rem;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.review blockquote {
+  flex: 1;
+  margin: 0;
+}
+
+.review blockquote::before {
+  content: '“';
+  display: block;
+  height: 2.25rem;
+  color: var(--color-accent);
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.review blockquote p {
+  color: var(--color-text-muted);
+}
+
+.review__author {
+  margin: 0;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .reviews {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(17rem, 85%);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+  }
+
+  .review {
+    scroll-snap-align: start;
+  }
+}
+
+/* ---------- Обложки с фото ---------- */
+
+.cover {
+  position: relative;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  color: #fff;
+  background: var(--color-blue-deep);
+}
+
+.cover--page {
+  min-height: clamp(18rem, 45vw, 28rem);
+  text-align: center;
+}
+
+.cover--block {
+  min-height: 34rem;
+  padding-block: var(--section-space);
+}
+
+.cover__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgb(13 42 107 / 0.45), rgb(13 42 107 / 0.7));
+}
+
+.cover__content {
+  position: relative;
+  z-index: 1;
+}
+
+.cover--block .cover__content {
+  max-width: 48rem;
+  text-align: center;
+}
+
+.cover__title {
+  color: #fff;
+  text-shadow: 0 2px 20px rgb(0 0 0 / 0.25);
+}
+
+.cover--page .cover__title {
+  margin: 0;
+}
+
+.cover a {
+  color: #fff;
+}
+
+.cover p {
+  font-size: 1.125rem;
 }
 
 /* ---------- Карточки направлений ---------- */
