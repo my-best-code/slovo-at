@@ -297,7 +297,57 @@ img {
   color: var(--color-blue);
 }
 
-@media (max-width: 720px) {
+.site-nav a[aria-current='page'] {
+  color: var(--color-blue);
+}
+
+.site-nav .site-nav__cta {
+  color: var(--color-on-accent);
+  padding: 0.6rem 1.25rem;
+}
+
+.site-nav .site-nav__cta:hover,
+.site-nav .site-nav__cta[aria-current='page'] {
+  color: var(--color-on-accent);
+}
+
+/* Переключатель языков — капсула, текущий язык залит */
+.site-nav .lang-switch {
+  display: flex;
+  gap: 0;
+  padding: 3px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+}
+
+.site-nav .lang-switch a {
+  display: block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.site-nav .lang-switch a[aria-current='true'] {
+  background: var(--color-blue-deep);
+  color: #fff;
+}
+
+@media (min-width: 981px) {
+  .site-nav__mobile-only {
+    display: none;
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1140px) {
+  .site-nav ul {
+    gap: 1rem;
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 980px) {
   .site-header__toggle {
     display: block;
   }
@@ -324,6 +374,31 @@ img {
     display: block;
     padding: 0.75rem 0;
     color: #fff;
+  }
+
+  .site-nav a[aria-current='page'] {
+    color: var(--color-accent);
+  }
+
+  .site-nav .site-nav__cta {
+    margin-top: 0.75rem;
+    width: 100%;
+  }
+
+  .site-nav .lang-switch {
+    display: inline-flex;
+    margin-top: 1rem;
+    border-color: rgb(255 255 255 / 0.3);
+  }
+
+  .site-nav .lang-switch a {
+    padding: 0.35rem 0.9rem;
+    color: #fff;
+  }
+
+  .site-nav .lang-switch a[aria-current='true'] {
+    background: #fff;
+    color: var(--color-blue-deep);
   }
 }
 

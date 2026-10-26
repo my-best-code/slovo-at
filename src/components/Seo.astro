@@ -2,21 +2,23 @@
 // Всё, что нужно поисковикам, ИИ-ботам и превью ссылок: title, description,
 // canonical, Open Graph, JSON-LD. Подключается в BaseLayout.
 import { PRODUCTION_ORIGIN, site } from '../data/site';
+import { languages, type Lang } from '../i18n';
 import { absolute } from '../lib/urls';
 
 interface Props {
   title: string;
   description: string;
+  lang: Lang;
   noindex?: boolean;
   jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description, noindex = false, jsonLd = [] } = Astro.props;
+const { title, description, lang, noindex = false, jsonLd = [] } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 // Тестовый деплой на *.github.io не должен попасть в поиск.
 const isProduction = Astro.site?.origin === PRODUCTION_ORIGIN;
-const ogImage = site.ogImage ? absolute(site.ogImage, Astro.site) : null;
+const ogImage: string | null = null;
 
 const organization = {
   '@context': 'https://schema.org',
@@ -26,7 +28,7 @@ const organization = {
   legalName: site.legalName,
   url: absolute('/', Astro.site),
   email: site.email,
-  ...(site.phone && { telephone: site.phone }),
+  telephone: site.phone,
   address: {
     '@type': 'PostalAddress',
     streetAddress: site.address.street,
@@ -34,7 +36,7 @@ const organization = {
     addressLocality: site.address.city,
     addressCountry: site.address.country,
   },
-  ...(site.socials.length > 0 && { sameAs: site.socials }),
+  sameAs: site.socials.map((social) => social.url),
 };
 
 // '<' экранируем, чтобы текст не мог закрыть тег <script>.
@@ -48,7 +50,7 @@ const toJson = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={site.name} />
-<meta property="og:locale" content={site.locale} />
+<meta property="og:locale" content={languages[lang].ogLocale} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />

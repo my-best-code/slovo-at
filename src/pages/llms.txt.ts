@@ -1,5 +1,10 @@
 import type { APIRoute } from 'astro';
-import { pages, site } from '../data/site';
+import { site } from '../data/site';
+
+const pages = [
+  { title: 'Impressum', path: '/impressum/', summary: 'Angaben gemäß § 5 ECG, § 14 UGB und § 25 MedienG.' },
+  { title: 'Datenschutzerklärung', path: '/datenschutz/', summary: 'Informationen zur Verarbeitung personenbezogener Daten.' },
+];
 import { absolute } from '../lib/urls';
 
 // Краткая карта сайта для ИИ-ассистентов (формат llms.txt: https://llmstxt.org).
@@ -8,7 +13,7 @@ export const GET: APIRoute = ({ site: siteUrl }) => {
   const lines = [
     `# ${site.name}`,
     '',
-    `> ${site.description}`,
+    '> Онлайн-школа немецкого',
     '',
     '## Seiten',
     '',
@@ -17,7 +22,7 @@ export const GET: APIRoute = ({ site: siteUrl }) => {
     '## Kontakt',
     '',
     `- E-Mail: ${site.email}`,
-    ...(site.phone ? [`- Telefon: ${site.phone}`] : []),
+    `- Telefon: ${site.phone}`,
     `- Adresse: ${site.address.street}, ${site.address.postalCode} ${site.address.city}, Österreich`,
     '',
   ];

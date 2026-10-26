@@ -12,12 +12,12 @@ const website = {
   '@type': 'WebSite',
   name: site.name,
   url: absolute('/', Astro.site),
-  inLanguage: site.lang,
+  inLanguage: 'ru',
   publisher: { '@id': absolute('/#organization', Astro.site) },
 };
 ---
 
-<BaseLayout title={`${site.name} – ${site.tagline}`} jsonLd={[website]}>
+<BaseLayout title={site.name} description="Онлайн-школа немецкого" path="/" jsonLd={[website]}>
   <Hero title={hero.title} text={hero.text} cta={{ ...hero.cta, href: href(hero.cta.href) }} />
 
   <Section id="ueber-uns" title={about.title} muted>
