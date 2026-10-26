@@ -3,6 +3,7 @@
 
 export const languages = {
   ru: { label: 'Ru', htmlLang: 'ru', ogLocale: 'ru_RU' },
+  de: { label: 'De', htmlLang: 'de', ogLocale: 'de_AT' },
 } as const;
 
 export type Lang = keyof typeof languages;
