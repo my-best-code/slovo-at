@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoCover from '../components/PhotoCover';
+import ContactStrip from '../components/ContactStrip';
+import { site } from '../data/site';
+import { getDict, type Lang } from '../i18n';
+import { contactStripProps } from '../lib/blocks';
+import { picture } from '../lib/images';
+import { rich } from '../lib/rich';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { ueber } = getDict(lang);
+const cover = await picture(ueber.cover.image, ueber.cover.alt, 1600, '100vw');
+---
+
+<BaseLayout lang={lang} path="/ueber/" title={`${ueber.meta.title} – ${site.name}`} description={ueber.meta.description}>
+  <PhotoCover picture={cover} title={ueber.cover.title} eager />
+  <section class="section">
+    <div class="container text-block">
+      <p class="text-block__lead">{ueber.lead}</p>
+      {ueber.paragraphs.map((paragraph) => <p set:html={rich(paragraph, lang)} />)}
+    </div>
+  </section>
+  <ContactStrip {...contactStripProps(lang, { all: true })} />
+</BaseLayout>

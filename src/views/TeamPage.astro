@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoCover from '../components/PhotoCover';
+import TeamMember from '../components/TeamMember';
+import ContactStrip from '../components/ContactStrip';
+import { site } from '../data/site';
+import { getDict, type Lang } from '../i18n';
+import { contactStripProps } from '../lib/blocks';
+import { picture } from '../lib/images';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { team } = getDict(lang);
+const cover = await picture(team.cover.image, team.cover.alt, 1600, '100vw');
+const members = await Promise.all(
+  team.members.map(async (member) => ({
+    ...member,
+    picture: await picture(member.image, member.alt, 420, '(max-width: 800px) 100vw, 420px'),
+  })),
+);
+---
+
+<BaseLayout lang={lang} path="/team/" title={`${team.meta.title} – ${site.name}`} description={team.meta.description}>
+  <PhotoCover picture={cover} title={team.cover.title} eager />
+  <section class="section">
+    <div class="container members">
+      {members.map((member) => <TeamMember name={member.name} role={member.role} picture={member.picture} bio={member.bio} quote={member.quote} />)}
+    </div>
+  </section>
+  <ContactStrip {...contactStripProps(lang, { withPhone: true })} />
+</BaseLayout>
