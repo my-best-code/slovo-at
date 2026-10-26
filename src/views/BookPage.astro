@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BookingSection from '../components/BookingSection';
+import ServiceCards from '../components/ServiceCards';
+import ContactStrip from '../components/ContactStrip';
+import { site } from '../data/site';
+import { getDict, type Lang } from '../i18n';
+import { bookingProps, contactStripProps, serviceCardsProps } from '../lib/blocks';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { book } = getDict(lang);
+const services = await serviceCardsProps(lang, book.services);
+---
+
+<BaseLayout lang={lang} path="/book/" title={`${book.meta.title} – ${site.name}`} description={book.meta.description}>
+  <BookingSection {...bookingProps(lang, Astro.site)} />
+  <section class="section">
+    <div class="container">
+      <ServiceCards {...services} />
+    </div>
+  </section>
+  <ContactStrip {...contactStripProps(lang, { all: true })} />
+</BaseLayout>

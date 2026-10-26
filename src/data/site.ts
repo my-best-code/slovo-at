@@ -17,6 +17,12 @@ export const site = {
     city: 'Salzburg',
     country: 'AT',
   },
+  // Форма записи отправляется через Web3Forms (бесплатно, письма приходят на почту школы).
+  // Ключ создаётся на web3forms.com для адреса info@slovo.at. Он публичный по своей природе.
+  form: {
+    action: 'https://api.web3forms.com/submit',
+    accessKey: '[PLATZHALTER: Web3Forms access key]',
+  },
   socials: [
     { label: 'Instagram', url: 'https://www.instagram.com/slovosprachen/' },
     { label: 'Telegram', url: 'https://t.me/slovosprachen' },
