@@ -1,0 +1,65 @@
+---
+// Черновик под текущую схему: GitHub Pages, почта Proton, без cookies.
+// Добавите форму, аналитику, карты, видео или внешние шрифты — допишите сюда раздел.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title={`Datenschutzerklärung – ${site.name}`}
+  description={`Datenschutzerklärung von ${site.name}: welche Daten beim Besuch der Website verarbeitet werden und welche Rechte Sie haben.`}
+>
+  <article class="prose container">
+    <h1>Datenschutzerklärung</h1>
+    <p>[PLATZHALTER: Entwurf – vor Veröffentlichung prüfen lassen und diesen Hinweis entfernen.]</p>
+
+    <h2>Verantwortlicher</h2>
+    <address>
+      {site.legalName}<br />
+      {site.address.street}<br />
+      {site.address.postalCode} {site.address.city}<br />
+      E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
+    </address>
+
+    <h2>Hosting und Server-Logfiles</h2>
+    <p>
+      Diese Website wird über GitHub Pages bereitgestellt, einen Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street,
+      San Francisco, CA 94107, USA. Beim Aufruf der Website verarbeitet GitHub technisch notwendige Daten, insbesondere
+      Ihre IP-Adresse, Datum und Uhrzeit des Zugriffs, die aufgerufene Seite und Angaben zu Browser und Betriebssystem.
+      Diese Daten sind erforderlich, um die Website auszuliefern und ihre Sicherheit zu gewährleisten.
+    </p>
+    <p>
+      Rechtsgrundlage ist unser berechtigtes Interesse an einer sicheren und zuverlässigen Bereitstellung der Website
+      (Art. 6 Abs. 1 lit. f DSGVO). Eine Übermittlung in die USA erfolgt auf Grundlage des EU-US Data Privacy Framework.
+      [PLATZHALTER: aktuelle Zertifizierung von GitHub unter dataprivacyframework.gov prüfen.]
+    </p>
+
+    <h2>Cookies</h2>
+    <p>Diese Website verwendet keine Cookies und keine vergleichbaren Technologien zur Wiedererkennung von Besuchern.</p>
+
+    <h2>Kontakt per E-Mail</h2>
+    <p>
+      Wenn Sie uns per E-Mail kontaktieren, verarbeiten wir Ihre Angaben, um Ihre Anfrage zu beantworten
+      (Art. 6 Abs. 1 lit. b bzw. f DSGVO). Unser E-Mail-Postfach wird von der Proton AG, Route de la Galaise 32,
+      1228 Plan-les-Ouates, Schweiz, betrieben. Für die Schweiz besteht ein Angemessenheitsbeschluss der
+      Europäischen Kommission. Wir speichern Ihre Nachricht, solange es für die Bearbeitung erforderlich ist bzw.
+      gesetzliche Aufbewahrungspflichten bestehen.
+    </p>
+
+    <h2>Webanalyse</h2>
+    <p>[PLATZHALTER: „Wir setzen keine Webanalyse ein.“ – oder Beschreibung des gewählten Dienstes.]</p>
+
+    <h2>Ihre Rechte</h2>
+    <p>
+      Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit
+      und Widerspruch. Wenden Sie sich dazu an <a href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+    <p>
+      Wenn Sie der Ansicht sind, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verstößt, können Sie sich
+      bei der Österreichischen Datenschutzbehörde beschweren: Barichgasse 40–42, 1030 Wien,
+      <a href="https://dsb.gv.at" rel="noopener">dsb.gv.at</a>.
+    </p>
+
+    <p>Stand: [PLATZHALTER: Monat Jahr]</p>
+  </article>
+</BaseLayout>

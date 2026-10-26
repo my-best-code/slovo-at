@@ -1,0 +1,43 @@
+---
+import Seo from '../components/Seo.astro';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { nav, site } from '../data/site';
+import { href } from '../lib/urls';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { title, description = site.description, noindex, jsonLd } = Astro.props;
+const navLinks = nav.map((item) => ({ ...item, href: href(item.href) }));
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={href('/favicon.svg')} />
+    <meta name="generator" content={Astro.generator} />
+    <Seo title={title} description={description} noindex={noindex} jsonLd={jsonLd} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+    {/* Меню-«бургер» нужен только на узких экранах, поэтому JS грузится только там. */}
+    <Header client:media="(max-width: 720px)" siteName={site.name} homeHref={href('/')} links={navLinks} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer
+      siteName={site.name}
+      email={site.email}
+      impressumHref={href('/impressum/')}
+      datenschutzHref={href('/datenschutz/')}
+    />
+  </body>
+</html>
