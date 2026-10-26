@@ -1,7 +1,7 @@
 // Готовые данные для повторяющихся блоков: собираются из словаря и src/data/site.ts.
 import { site, phoneHref } from '../data/site';
 import { getDict, localePath, type Lang } from '../i18n';
-import type { ServiceCard } from '../i18n/types';
+import type { CourseBlock, ServiceCard } from '../i18n/types';
 import { picture } from './images';
 import { pageHref, rich } from './rich';
 import { absolute } from './urls';
@@ -50,4 +50,16 @@ export async function serviceCardsProps(lang: Lang, items: ServiceCard[]) {
       })),
     ),
   };
+}
+
+/** Блоки «фото + описание» на страницах курсов. */
+export async function courseBlocksProps(lang: Lang, items: CourseBlock[]) {
+  return Promise.all(
+    items.map(async (item) => ({
+      title: item.title,
+      picture: await picture(item.image, item.alt, 560, '(max-width: 860px) 100vw, 560px'),
+      paragraphs: item.paragraphs.map((text) => rich(text, lang)),
+      list: item.list?.map((text) => rich(text, lang)),
+    })),
+  );
 }

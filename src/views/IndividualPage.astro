@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoCover from '../components/PhotoCover';
+import CourseBlocks from '../components/CourseBlocks';
+import ContactStrip from '../components/ContactStrip';
+import { site } from '../data/site';
+import { getDict, type Lang } from '../i18n';
+import { contactStripProps, courseBlocksProps } from '../lib/blocks';
+import { picture } from '../lib/images';
+import { rich } from '../lib/rich';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { individual } = getDict(lang);
+const cover = await picture(individual.cover.image, individual.cover.alt, 1600, '100vw');
+const concept = await courseBlocksProps(lang, [individual.concept]);
+---
+
+<BaseLayout lang={lang} path="/individual/" title={`${individual.meta.title} – ${site.name}`} description={individual.meta.description}>
+  <PhotoCover picture={cover} title={individual.cover.title} eager />
+  <section class="section">
+    <div class="container">
+      <p class="lead" set:html={rich(individual.lead, lang)} />
+    </div>
+  </section>
+  <section class="section section--cream">
+    <div class="container">
+      <CourseBlocks items={concept} />
+    </div>
+  </section>
+  <ContactStrip {...contactStripProps(lang, { withPhone: true })} />
+</BaseLayout>

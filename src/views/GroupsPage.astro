@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoCover from '../components/PhotoCover';
+import Announcement from '../components/Announcement';
+import CourseBlocks from '../components/CourseBlocks';
+import BookingSection from '../components/BookingSection';
+import ContactStrip from '../components/ContactStrip';
+import { site } from '../data/site';
+import { getDict, type Lang } from '../i18n';
+import { bookingProps, contactStripProps, courseBlocksProps } from '../lib/blocks';
+import { picture } from '../lib/images';
+import { pageHref, rich } from '../lib/rich';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { groups } = getDict(lang);
+const cover = await picture(groups.cover.image, groups.cover.alt, 1600, '100vw');
+const courses = await courseBlocksProps(lang, groups.courses);
+---
+
+<BaseLayout lang={lang} path="/groups/" title={`${groups.meta.title} – ${site.name}`} description={groups.meta.description}>
+  <PhotoCover picture={cover} title={groups.cover.title} eager />
+  <section class="section">
+    <div class="container">
+      <p class="lead">{groups.lead}</p>
+    </div>
+  </section>
+  <section class="section section--cream">
+    <div class="container">
+      <Announcement
+        title={groups.announcement.title}
+        lines={groups.announcement.lines.map((line) => rich(line, lang))}
+        button={{ label: groups.announcement.button.label, href: pageHref(groups.announcement.button.path, lang) }}
+      />
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <CourseBlocks id="courses" items={courses} />
+    </div>
+  </section>
+  <BookingSection id="booking" {...bookingProps(lang, Astro.site)} />
+  <ContactStrip {...contactStripProps(lang, { withPhone: true })} />
+</BaseLayout>

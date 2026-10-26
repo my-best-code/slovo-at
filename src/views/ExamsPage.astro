@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoCover from '../components/PhotoCover';
+import ExamCards from '../components/ExamCards';
+import ContactStrip from '../components/ContactStrip';
+import { site } from '../data/site';
+import { getDict, type Lang } from '../i18n';
+import { contactStripProps } from '../lib/blocks';
+import { picture } from '../lib/images';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { exams } = getDict(lang);
+const cover = await picture(exams.cover.image, exams.cover.alt, 1600, '100vw');
+---
+
+<BaseLayout lang={lang} path="/exams/" title={`${exams.meta.title} – ${site.name}`} description={exams.meta.description}>
+  <PhotoCover picture={cover} title={exams.cover.title} eager />
+  <section class="section">
+    <div class="container">
+      <p class="lead exams-lead">{exams.lead}</p>
+      <ExamCards items={exams.items} />
+    </div>
+  </section>
+  <ContactStrip {...contactStripProps(lang, { withPhone: true })} />
+</BaseLayout>
