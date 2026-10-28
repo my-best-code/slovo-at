@@ -2,13 +2,16 @@
 // GitHub Pages сам отдаёт эту страницу на любой несуществующий адрес.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
-import { href } from '../lib/urls';
+import { getDict } from '../i18n';
+import { pageHref } from '../lib/rich';
+
+const { common } = getDict('ru');
 ---
 
-<BaseLayout title={`Seite nicht gefunden – ${site.name}`} noindex>
+<BaseLayout title={`${common.notFound.title} – ${site.name}`} description={common.notFound.text} path="/404/" noindex>
   <article class="prose container">
-    <h1>Seite nicht gefunden</h1>
-    <p>Diese Seite gibt es nicht oder nicht mehr.</p>
-    <p><a class="button" href={href('/')}>Zur Startseite</a></p>
+    <h1>{common.notFound.title}</h1>
+    <p>{common.notFound.text}</p>
+    <p><a class="button" href={pageHref('/', 'ru')}>{common.notFound.home}</a></p>
   </article>
 </BaseLayout>

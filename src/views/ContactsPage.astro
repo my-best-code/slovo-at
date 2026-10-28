@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoCover from '../components/PhotoCover';
+import { phoneHref, site } from '../data/site';
+import { getDict, type Lang } from '../i18n';
+import { picture } from '../lib/images';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { contacts } = getDict(lang);
+const cover = await picture(contacts.cover.image, contacts.cover.alt, 1600, '100vw');
+---
+
+<BaseLayout lang={lang} path="/contacts/" title={`${contacts.meta.title} – ${site.name}`} description={contacts.meta.description} image={contacts.cover.image}>
+  <PhotoCover picture={cover} title={contacts.cover.title} eager />
+  <section class="section">
+    <div class="container contacts">
+      <p class="contacts__links">
+        <a href={phoneHref}>{site.phone}</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+      <p class="contacts__text">{contacts.text}</p>
+      <ul class="socials socials--center">
+        {site.socials.map((social) => <li><a href={social.url} rel="noopener">{social.label}</a></li>)}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

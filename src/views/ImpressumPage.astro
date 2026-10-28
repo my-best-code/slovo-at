@@ -1,0 +1,62 @@
+---
+// Заглушка. Обязательные данные зависят от формы деятельности (ИП, GmbH, Verein…).
+// Сверить с памяткой WKO по Impressum (wko.at) или у юриста / Steuerberater друга.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { phoneHref, site } from '../data/site';
+import type { Lang } from '../i18n';
+
+interface Props {
+  /** Язык меню и подвала. Сам текст — всегда на немецком. */
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`Impressum – ${site.name}`}
+  description={`Impressum von ${site.name}: Angaben gemäß § 5 ECG, § 14 UGB und § 25 MedienG.`}
+  path="/impressum/"
+>
+  <article class="prose container" lang="de">
+    <h1>Impressum</h1>
+    <p>Informationspflicht laut § 5 E-Commerce-Gesetz, § 14 Unternehmensgesetzbuch und Offenlegungspflicht laut § 25 Mediengesetz.</p>
+
+    <h2>Medieninhaber und Herausgeber</h2>
+    <address>
+      {site.legalName}<br />
+      {site.address.street}<br />
+      {site.address.postalCode} {site.address.city}<br />
+      Österreich
+    </address>
+
+    <dl>
+      <dt>Inhaber</dt>
+      <dd>[PLATZHALTER: Vor- und Nachname der Inhaberin / des Inhabers]</dd>
+      <dt>E-Mail</dt>
+      <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+      <dt>Telefon</dt>
+      <dd><a href={phoneHref}>{site.phone}</a></dd>
+      <dt>Unternehmensgegenstand</dt>
+      <dd>Sprachschule: Deutschunterricht online und Vorbereitung auf Deutschprüfungen</dd>
+      <dt>Rechtsform</dt>
+      <dd>Eingetragenes Einzelunternehmen (e.U.)</dd>
+      <dt>Firmenbuchnummer</dt>
+      <dd>[PLATZHALTER: FN …]</dd>
+      <dt>Firmenbuchgericht</dt>
+      <dd>[PLATZHALTER: vermutlich Landesgericht Salzburg – prüfen]</dd>
+      <dt>UID-Nummer</dt>
+      <dd>[PLATZHALTER: ATU… – oder Zeile entfernen, falls keine UID]</dd>
+      <dt>Mitglied der</dt>
+      <dd>[PLATZHALTER: vermutlich Wirtschaftskammer Salzburg – prüfen]</dd>
+      <dt>Gewerbebehörde</dt>
+      <dd>[PLATZHALTER: zuständige Bezirkshauptmannschaft / Magistrat – oder Zeile entfernen]</dd>
+      <dt>Berufsrecht</dt>
+      <dd>[PLATZHALTER: Gewerbeordnung, abrufbar unter www.ris.bka.gv.at – oder Zeile entfernen]</dd>
+    </dl>
+
+    <h2>Grundlegende Richtung (Blattlinie)</h2>
+    <p>Information über die Deutschkurse und Leistungen der {site.name}.</p>
+  </article>
+</BaseLayout>

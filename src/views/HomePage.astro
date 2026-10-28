@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHero from '../components/HomeHero';
+import Announcement from '../components/Announcement';
+import FeatureGrid from '../components/FeatureGrid';
+import Reviews from '../components/Reviews';
+import PhotoCover from '../components/PhotoCover';
+import ServiceCards from '../components/ServiceCards';
+import BookingSection from '../components/BookingSection';
+import { site } from '../data/site';
+import { getDict, languages, type Lang } from '../i18n';
+import { bookingProps, serviceCardsProps } from '../lib/blocks';
+import { picture } from '../lib/images';
+import { pageHref, rich } from '../lib/rich';
+import { absolute } from '../lib/urls';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { home } = getDict(lang);
+
+const aboutPicture = await picture(home.about.image, home.about.alt, 1600, '100vw');
+const services = await serviceCardsProps(lang, home.services);
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: absolute('/', Astro.site),
+  inLanguage: languages[lang].htmlLang,
+  publisher: { '@id': absolute('/#organization', Astro.site) },
+};
+---
+
+<BaseLayout lang={lang} path="/" title={home.meta.title} description={home.meta.description} jsonLd={[website]}>
+  <HomeHero eyebrow={home.hero.eyebrow} title={home.hero.title} html={rich(home.hero.text, lang)} />
+
+  <section class="announcement-section">
+    <div class="container">
+      <Announcement
+        title={home.announcement.title}
+        lines={home.announcement.lines.map((line) => rich(line, lang))}
+        button={{ label: home.announcement.button.label, href: pageHref(home.announcement.button.path, lang) }}
+      />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="why-title">
+    <div class="container">
+      <h2 id="why-title" class="section__title">{home.why.title}</h2>
+      <FeatureGrid items={home.why.items} />
+    </div>
+  </section>
+
+  <section class="section section--blue" aria-labelledby="reviews-title">
+    <div class="container">
+      <h2 id="reviews-title" class="section__title">{home.reviews.title}</h2>
+      <Reviews items={home.reviews.items} />
+    </div>
+  </section>
+
+  <PhotoCover picture={aboutPicture} title={home.about.title} titleHref={pageHref(home.about.path, lang)} as="h2" size="block">
+    {home.about.paragraphs.map((paragraph) => <p set:html={rich(paragraph, lang)} />)}
+  </PhotoCover>
+
+  <section class="section">
+    <div class="container">
+      <ServiceCards {...services} />
+    </div>
+  </section>
+
+  <BookingSection id="booking" {...bookingProps(lang, Astro.site)} />
+</BaseLayout>

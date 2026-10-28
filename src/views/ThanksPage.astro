@@ -1,0 +1,22 @@
+---
+// Сюда Web3Forms возвращает посетителя после отправки формы.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { getDict, type Lang } from '../i18n';
+import { pageHref } from '../lib/rich';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { common } = getDict(lang);
+---
+
+<BaseLayout lang={lang} path="/thanks/" title={`${common.thanks.title} – ${site.name}`} description={common.thanks.text} noindex>
+  <article class="prose container">
+    <h1>{common.thanks.title}</h1>
+    <p>{common.thanks.text}</p>
+    <p><a class="button" href={pageHref('/', lang)}>{common.thanks.back}</a></p>
+  </article>
+</BaseLayout>

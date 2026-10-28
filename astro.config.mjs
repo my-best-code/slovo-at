@@ -15,10 +15,22 @@ export default defineConfig({
   site,
   base,
   trailingSlash: 'always',
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    // Служебная страница «Спасибо» после отправки формы в поиск не нужна.
+    sitemap({
+      filter: (page) => !page.includes('/thanks/'),
+      // Русская и немецкая версии одной страницы связываются через hreflang.
+      i18n: { defaultLocale: 'ru', locales: { ru: 'ru', de: 'de' } },
+    }),
+  ],
 
   // Старые адреса с Tilda → новые страницы. На GitHub Pages это страницы
   // с <meta http-equiv="refresh">, настоящих 301 там нет.
-  // Пример: '/about': '/ueber-uns/',
-  redirects: {},
+  // Адреса /ueber, /team, /groups, /individual, /exams, /contacts, /book
+  // остались прежними (GitHub Pages сам добавит слэш в конце).
+  redirects: {
+    '/main': '/', // так Tilda называла главную
+    '/header': '/', // служебная страница Tilda с меню
+  },
 });
