@@ -17,7 +17,7 @@ const services = await serviceCardsProps(lang, book.services);
 ---
 
 <BaseLayout lang={lang} path="/book/" title={`${book.meta.title} – ${site.name}`} description={book.meta.description}>
-  <BookingSection {...bookingProps(lang, Astro.site)} />
+  <BookingSection {...bookingProps(lang, Astro.site)} headingLevel="h1" />
   <section class="section">
     <div class="container">
       <ServiceCards {...services} />

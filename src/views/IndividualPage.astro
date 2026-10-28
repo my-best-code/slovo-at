@@ -5,6 +5,7 @@ import CourseBlocks from '../components/CourseBlocks';
 import ContactStrip from '../components/ContactStrip';
 import { site } from '../data/site';
 import { getDict, type Lang } from '../i18n';
+import { individualCourseSchema } from '../lib/schema';
 import { contactStripProps, courseBlocksProps } from '../lib/blocks';
 import { picture } from '../lib/images';
 import { rich } from '../lib/rich';
@@ -19,7 +20,7 @@ const cover = await picture(individual.cover.image, individual.cover.alt, 1600, 
 const concept = await courseBlocksProps(lang, [individual.concept]);
 ---
 
-<BaseLayout lang={lang} path="/individual/" title={`${individual.meta.title} – ${site.name}`} description={individual.meta.description} image={individual.cover.image}>
+<BaseLayout lang={lang} path="/individual/" title={`${individual.meta.title} – ${site.name}`} description={individual.meta.description} image={individual.cover.image} jsonLd={individualCourseSchema(lang, Astro.site)}>
   <PhotoCover picture={cover} title={individual.cover.title} eager />
   <section class="section">
     <div class="container">

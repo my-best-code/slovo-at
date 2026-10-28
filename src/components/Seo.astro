@@ -15,12 +15,20 @@ interface Props {
   /** Картинка для превью ссылки в мессенджерах и соцсетях. */
   image: ImageKey;
   noindex?: boolean;
+  /**
+   * Страница существует только на одном языке (Impressum, Datenschutz — всегда по-немецки):
+   * canonical ведёт на эту версию, а hreflang не выводится.
+   */
+  canonicalLang?: Lang;
   jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description, lang, path, image, noindex = false, jsonLd = [] } = Astro.props;
+const { title, description, lang, path, image, noindex = false, canonicalLang, jsonLd = [] } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const canonical = canonicalLang
+  ? absolute(localePath(canonicalLang, path), Astro.site)
+  : new URL(Astro.url.pathname, Astro.site).toString();
+const showHreflang = !noindex && !canonicalLang;
 // Тестовый деплой на *.github.io не должен попасть в поиск.
 const isProduction = Astro.site?.origin === PRODUCTION_ORIGIN;
 // Путь картинки уже содержит базовый путь сайта, поэтому только добавляем домен.
@@ -40,8 +48,8 @@ const organization = {
   telephone: site.phone,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: site.address.street,
-    postalCode: site.address.postalCode,
+    ...(site.address.street && { streetAddress: site.address.street }),
+    ...(site.address.postalCode && { postalCode: site.address.postalCode }),
     addressLocality: site.address.city,
     addressCountry: site.address.country,
   },
@@ -56,8 +64,8 @@ const toJson = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 {(noindex || !isProduction) && <meta name="robots" content="noindex" />}
-{!noindex && alternates.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
-{!noindex && <link rel="alternate" hreflang="x-default" href={xDefault} />}
+{showHreflang && alternates.map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
+{showHreflang && <link rel="alternate" hreflang="x-default" href={xDefault} />}
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={site.name} />

@@ -18,8 +18,14 @@ export default defineConfig({
   integrations: [
     react(),
     // Служебная страница «Спасибо» после отправки формы в поиск не нужна.
+    // Impressum и Datenschutz написаны только по-немецки: в sitemap — только версии /de/.
     sitemap({
-      filter: (page) => !page.includes('/thanks/'),
+      filter: (page) => {
+        const path = new URL(page).pathname;
+        if (path.includes('/thanks/')) return false;
+        const isLegal = /\/(impressum|datenschutz)\/$/.test(path);
+        return !isLegal || path.includes('/de/');
+      },
       // Русская и немецкая версии одной страницы связываются через hreflang.
       i18n: { defaultLocale: 'ru', locales: { ru: 'ru', de: 'de' } },
     }),

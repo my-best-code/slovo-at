@@ -1,6 +1,5 @@
 // Общие данные школы: название, контакты, соцсети, адрес.
-// Тексты на разных языках — в src/i18n/. Всё, что помечено [PLATZHALTER …],
-// нужно заменить до переключения DNS (проверка: npm run check:launch).
+// Тексты на разных языках — в src/i18n/.
 
 export const PRODUCTION_ORIGIN = 'https://slovo.at';
 
@@ -11,9 +10,10 @@ export const site = {
   schemaType: 'EducationalOrganization',
   email: 'info@slovo.at',
   phone: '+43 677 636 91 485',
+  // Улица и индекс неизвестны — пока null, на сайте показывается только город.
   address: {
-    street: '[PLATZHALTER: Straße und Hausnummer]',
-    postalCode: '[PLATZHALTER: PLZ]',
+    street: null as string | null,
+    postalCode: null as string | null,
     city: 'Salzburg',
     country: 'AT',
   },

@@ -40,7 +40,7 @@ export const GET: APIRoute = ({ site: siteUrl }) => {
     `- E-Mail: ${site.email}`,
     `- Telefon: ${site.phone}`,
     ...site.socials.map((social) => `- ${social.label}: ${social.url}`),
-    `- Impressum: ${absolute('/impressum/', siteUrl)}`,
+    `- Impressum: ${absolute('/de/impressum/', siteUrl)}`,
     '',
   );
   return new Response(lines.join('\n'), {

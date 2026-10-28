@@ -4,7 +4,7 @@ import type { ServiceCard } from '../types';
 
 export const home = {
   meta: {
-    title: 'SLOVO Sprachschule',
+    title: 'Курсы немецкого онлайн из Зальцбурга – SLOVO Sprachschule',
     description:
       'Онлайн-школа немецкого языка из Зальцбурга: групповые курсы, индивидуальные занятия и подготовка к экзаменам Goethe, ÖSD, ÖIF и telc.',
   },

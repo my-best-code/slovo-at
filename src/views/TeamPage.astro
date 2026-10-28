@@ -5,6 +5,7 @@ import TeamMember from '../components/TeamMember';
 import ContactStrip from '../components/ContactStrip';
 import { site } from '../data/site';
 import { getDict, type Lang } from '../i18n';
+import { teamSchema } from '../lib/schema';
 import { contactStripProps } from '../lib/blocks';
 import { picture } from '../lib/images';
 
@@ -23,7 +24,7 @@ const members = await Promise.all(
 );
 ---
 
-<BaseLayout lang={lang} path="/team/" title={`${team.meta.title} – ${site.name}`} description={team.meta.description} image={team.cover.image}>
+<BaseLayout lang={lang} path="/team/" title={`${team.meta.title} – ${site.name}`} description={team.meta.description} image={team.cover.image} jsonLd={teamSchema(lang, Astro.site)}>
   <PhotoCover picture={cover} title={team.cover.title} eager />
   <section class="section">
     <div class="container members">
