@@ -18,10 +18,10 @@ export const site = {
     country: 'AT',
   },
   // Форма записи отправляется через Web3Forms (бесплатно, письма приходят на почту школы).
-  // Ключ создаётся на web3forms.com для адреса info@slovo.at. Он публичный по своей природе.
+  // Ключ создан на web3forms.com, заявки приходят на почту, указанную при создании. Ключ публичный.
   form: {
     action: 'https://api.web3forms.com/submit',
-    accessKey: '[PLATZHALTER: Web3Forms access key]',
+    accessKey: '908b8d5d-f865-421d-b9bf-1b67990ccc6b',
   },
   socials: [
     { label: 'Instagram', url: 'https://www.instagram.com/slovosprachen/' },
