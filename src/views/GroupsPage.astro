@@ -7,6 +7,7 @@ import BookingSection from '../components/BookingSection';
 import ContactStrip from '../components/ContactStrip';
 import { site } from '../data/site';
 import { getDict, type Lang } from '../i18n';
+import { groupCoursesSchema } from '../lib/schema';
 import { bookingProps, contactStripProps, courseBlocksProps } from '../lib/blocks';
 import { picture } from '../lib/images';
 import { pageHref, rich } from '../lib/rich';
@@ -21,7 +22,7 @@ const cover = await picture(groups.cover.image, groups.cover.alt, 1600, '100vw')
 const courses = await courseBlocksProps(lang, groups.courses);
 ---
 
-<BaseLayout lang={lang} path="/groups/" title={`${groups.meta.title} – ${site.name}`} description={groups.meta.description} image={groups.cover.image}>
+<BaseLayout lang={lang} path="/groups/" title={`${groups.meta.title} – ${site.name}`} description={groups.meta.description} image={groups.cover.image} jsonLd={groupCoursesSchema(lang, Astro.site)}>
   <PhotoCover picture={cover} title={groups.cover.title} eager />
   <section class="section">
     <div class="container">

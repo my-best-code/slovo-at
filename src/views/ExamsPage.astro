@@ -5,6 +5,7 @@ import ExamCards from '../components/ExamCards';
 import ContactStrip from '../components/ContactStrip';
 import { site } from '../data/site';
 import { getDict, type Lang } from '../i18n';
+import { examsCourseSchema } from '../lib/schema';
 import { contactStripProps } from '../lib/blocks';
 import { picture } from '../lib/images';
 
@@ -17,7 +18,7 @@ const { exams } = getDict(lang);
 const cover = await picture(exams.cover.image, exams.cover.alt, 1600, '100vw');
 ---
 
-<BaseLayout lang={lang} path="/exams/" title={`${exams.meta.title} – ${site.name}`} description={exams.meta.description} image={exams.cover.image}>
+<BaseLayout lang={lang} path="/exams/" title={`${exams.meta.title} – ${site.name}`} description={exams.meta.description} image={exams.cover.image} jsonLd={examsCourseSchema(lang, Astro.site)}>
   <PhotoCover picture={cover} title={exams.cover.title} eager />
   <section class="section">
     <div class="container">

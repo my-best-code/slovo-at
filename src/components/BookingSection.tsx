@@ -18,6 +18,8 @@ interface FormText {
 interface Props {
   id?: string;
   title: string;
+  /** На странице /book/ это главный заголовок (h1), в остальных местах — h2. */
+  headingLevel?: 'h1' | 'h2';
   phone: { label: string; display: string; href: string };
   email: { label: string; address: string };
   socials: { label: string; url: string }[];
@@ -25,13 +27,14 @@ interface Props {
   form: { action: string; accessKey: string; redirect: string; fromName: string; text: FormText };
 }
 
-export default function BookingSection({ id, title, phone, email, socials, socialsLabel, form }: Props) {
+export default function BookingSection({ id, title, headingLevel = 'h2', phone, email, socials, socialsLabel, form }: Props) {
   const t = form.text;
+  const Heading = headingLevel;
   return (
     <section id={id} className="section section--cream booking" aria-labelledby={`${id ?? 'booking'}-title`}>
       <div className="container booking__inner">
         <div className="booking__info">
-          <h2 id={`${id ?? 'booking'}-title`}>{title}</h2>
+          <Heading id={`${id ?? 'booking'}-title`}>{title}</Heading>
           <p className="booking__contacts">
             {phone.label} <a href={phone.href}>{phone.display}</a>
             <br />

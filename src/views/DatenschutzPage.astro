@@ -18,16 +18,16 @@ const { lang } = Astro.props;
   title={`Datenschutzerklärung – ${site.name}`}
   description={`Datenschutzerklärung von ${site.name}: welche Daten beim Besuch der Website verarbeitet werden und welche Rechte Sie haben.`}
   path="/datenschutz/"
+  canonicalLang="de"
 >
   <article class="prose container" lang="de">
     <h1>Datenschutzerklärung</h1>
-    <p>[PLATZHALTER: Entwurf – vor Veröffentlichung prüfen lassen und diesen Hinweis entfernen.]</p>
 
     <h2>Verantwortlicher</h2>
     <address>
       {site.legalName}<br />
-      {site.address.street}<br />
-      {site.address.postalCode} {site.address.city}<br />
+      {site.address.street && <>{site.address.street}<br /></>}
+      {[site.address.postalCode, site.address.city].filter(Boolean).join(' ')}<br />
       E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
     </address>
 
@@ -41,7 +41,6 @@ const { lang } = Astro.props;
     <p>
       Rechtsgrundlage ist unser berechtigtes Interesse an einer sicheren und zuverlässigen Bereitstellung der Website
       (Art. 6 Abs. 1 lit. f DSGVO). Eine Übermittlung in die USA erfolgt auf Grundlage des EU-US Data Privacy Framework.
-      [PLATZHALTER: aktuelle Zertifizierung von GitHub unter dataprivacyframework.gov prüfen.]
     </p>
 
     <h2>Cookies</h2>
@@ -62,7 +61,8 @@ const { lang } = Astro.props;
       E-Mail-Adresse, Ihre Telefonnummer, Ihre Angaben zum Deutschniveau und Ihre Nachricht, um Ihre Anmeldung zu
       bearbeiten und Sie zu kontaktieren (Art. 6 Abs. 1 lit. b DSGVO). Die Formulardaten werden über den Dienst
       Web3Forms an unser E-Mail-Postfach weitergeleitet.
-      [PLATZHALTER: Anbieter, Sitz und Rechtsgrundlage der Übermittlung laut Datenschutzerklärung von Web3Forms ergänzen.]
+      Weitere Informationen finden Sie in der
+      <a href="https://web3forms.com/privacy" rel="noopener">Datenschutzerklärung von Web3Forms</a>.
     </p>
 
     <h2>Schriftarten</h2>
@@ -78,7 +78,7 @@ const { lang } = Astro.props;
     </p>
 
     <h2>Webanalyse</h2>
-    <p>Wir setzen keine Webanalyse ein. [PLATZHALTER: anpassen, falls eine Webanalyse eingeführt wird – sonst nur diesen Hinweis entfernen.]</p>
+    <p>Wir setzen keine Webanalyse ein.</p>
 
     <h2>Ihre Rechte</h2>
     <p>
@@ -91,6 +91,6 @@ const { lang } = Astro.props;
       <a href="https://dsb.gv.at" rel="noopener">dsb.gv.at</a>.
     </p>
 
-    <p>Stand: [PLATZHALTER: Monat Jahr]</p>
+    <p>Stand: Oktober 2026</p>
   </article>
 </BaseLayout>

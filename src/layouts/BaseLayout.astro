@@ -18,10 +18,12 @@ interface Props {
   /** Картинка для превью ссылки. По умолчанию — горное озеро, как у главной на Tilda. */
   image?: ImageKey;
   noindex?: boolean;
+  /** Для страниц, которые есть только на одном языке (см. Seo.astro). */
+  canonicalLang?: Lang;
   jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description, path, lang = defaultLang, image = 'lakeMountains', noindex, jsonLd } = Astro.props;
+const { title, description, path, lang = defaultLang, image = 'lakeMountains', noindex, canonicalLang, jsonLd } = Astro.props;
 const { common } = getDict(lang);
 
 const links = common.nav.map((item) => ({
@@ -46,7 +48,7 @@ const langLinks = langs.map((code) => ({
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href={href('/favicon.svg')} />
     <meta name="generator" content={Astro.generator} />
-    <Seo title={title} description={description} lang={lang} path={path} image={image} noindex={noindex} jsonLd={jsonLd} />
+    <Seo title={title} description={description} lang={lang} path={path} image={image} noindex={noindex} canonicalLang={canonicalLang} jsonLd={jsonLd} />
   </head>
   <body>
     <a class="skip-link" href="#main">{common.skipLink}</a>

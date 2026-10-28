@@ -38,6 +38,9 @@ export const images = {
 
 export type ImageKey = keyof typeof images;
 
+// Качество WebP: на глаз не отличить от исходника, а файлы в 2–3 раза легче, чем по умолчанию.
+const WEBP_QUALITY = 70;
+
 export interface Picture {
   src: string;
   srcSet: string;
@@ -53,8 +56,10 @@ export interface Picture {
  */
 export async function picture(key: ImageKey, alt: string, width: number, sizes = `(max-width: ${width}px) 100vw, ${width}px`): Promise<Picture> {
   const src = images[key];
-  const widths = [width, width * 2].filter((w) => w <= src.width);
-  const result = await getImage({ src, width: Math.min(width, src.width), widths: widths.length ? widths : [src.width], format: 'webp' });
+  // Узкие варианты нужны телефонам: без них широкая обложка грузится целиком даже на экране в 400 px.
+  const candidates = [480, 800, 1200, width, width * 2].filter((w) => w <= width * 2 && w <= src.width);
+  const widths = [...new Set(candidates)].sort((a, b) => a - b);
+  const result = await getImage({ src, width: Math.min(width, src.width), widths: widths.length ? widths : [src.width], format: 'webp', quality: WEBP_QUALITY });
   return {
     src: result.src,
     srcSet: result.srcSet.attribute,
@@ -68,6 +73,6 @@ export async function picture(key: ImageKey, alt: string, width: number, sizes =
 /** Адрес картинки для фона обложки или превью в соцсетях. */
 export async function imageUrl(key: ImageKey, width: number, format: 'webp' | 'jpg' = 'webp'): Promise<string> {
   const src = images[key];
-  const result = await getImage({ src, width: Math.min(width, src.width), format });
+  const result = await getImage({ src, width: Math.min(width, src.width), format, quality: format === 'webp' ? WEBP_QUALITY : 80 });
   return result.src;
 }

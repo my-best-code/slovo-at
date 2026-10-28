@@ -3,7 +3,7 @@ import type { Dict } from '..';
 
 export const home: Dict['home'] = {
   meta: {
-    title: "SLOVO Sprachschule",
+    title: "Deutschkurse online aus Salzburg – SLOVO Sprachschule",
     description: "Online-Deutschschule aus Salzburg: Gruppenkurse, Einzelunterricht und Vorbereitung auf die Prüfungen Goethe, ÖSD, ÖIF und telc."
   },
   hero: {
